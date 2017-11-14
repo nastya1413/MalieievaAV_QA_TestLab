@@ -1,3 +1,5 @@
+import java.util.List;
+
 import org.eclipse.jetty.websocket.api.InvalidWebSocketException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,9 +10,10 @@ import com.google.common.collect.TreeBasedTable;
 
 public class Launcher {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		WebDriver driver = initChromeDriver();
 		useCaseLoginLogout(driver);
+		checkAdminPanel(driver);
 		closeDriver(driver);
 	}
 	
@@ -41,6 +44,31 @@ public class Launcher {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void checkAdminPanel(WebDriver driver) throws InterruptedException
+	{
+		useCaseLogin(driver);	
+		
+		List<WebElement> admiPanel = driver.findElement(By.className("menu")).findElements(By.tagName("li"));
+		
+		for (WebElement item : admiPanel) {
+			item.click();
+			Thread.sleep(2000);
+//			System.out.println(item.findElement(By.tagName("a")).findElement(By.tagName("span")).getText());
+			
+			String pageBeforeUpdate = driver.findElement(By.className("page-title")).getText();
+			System.out.println(pageBeforeUpdate);
+			driver.navigate().refresh();
+			
+			Thread.sleep(5000);
+			String currentPageAfterRfresh = driver.findElement(By.className("page-title")).getText();
+			if(pageBeforeUpdate.equals(currentPageAfterRfresh))
+				System.out.println(String.format("Actual page is {0}. Expected is {1}.", currentPageAfterRfresh, pageBeforeUpdate));
+			else 
+				System.out.println(String.format("Actual page is {0}. Expected is {1}.", currentPageAfterRfresh, pageBeforeUpdate));
+		}
+		
 	}
 	
 	public static void useCaseLogin(WebDriver driver)
