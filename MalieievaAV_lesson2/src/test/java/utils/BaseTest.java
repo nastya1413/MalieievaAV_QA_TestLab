@@ -1,8 +1,14 @@
 package utils;
 
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.events.WebDriverEventListener;
 
 public abstract class BaseTest {
 	public static WebDriver initDriver()
@@ -21,10 +27,13 @@ public abstract class BaseTest {
 		}
 	}
 	
-	public static WebDriver getConfiguredDriver(){
+	public static EventFiringWebDriver getConfiguredDriver(){
 		WebDriver driver = initDriver();
 		driver.manage().window().maximize();
-		return driver;
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		EventFiringWebDriver wDriver = new EventFiringWebDriver(driver);
+		wDriver.register(new EventHandler());
+		return wDriver;
 	}
 	
 	public static void closeDriver(WebDriver driver)

@@ -5,15 +5,19 @@ import utils.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 public class LoginPage {
-private WebDriver driver;
+//private WebDriver driver;
 
+private EventFiringWebDriver driver;
 private By emailField = By.id("email");
 private By passwordField = By.id("passwd");
 private By submitBttn = By.name("submitLogin");
+private String email = "webinar.test@gmail.com";
+private String passw = "Xcg7299bnSmMuRLp9ITw";
 
-	public LoginPage(WebDriver driver){
+	public LoginPage(EventFiringWebDriver driver){
 		this.driver = driver;
 	}
 	
@@ -22,11 +26,11 @@ private By submitBttn = By.name("submitLogin");
 	}
 	
 	public void fillEmailField(){
-		driver.findElement(emailField).sendKeys("webinar.test@gmail.com");
+		driver.findElement(emailField).sendKeys(email);
 	}
 	
 	public void fillPasswField(){
-		driver.findElement(passwordField).sendKeys("Xcg7299bnSmMuRLp9ITw");
+		driver.findElement(passwordField).sendKeys(passw);
 	}
 	
 	public void clickSubmit(){

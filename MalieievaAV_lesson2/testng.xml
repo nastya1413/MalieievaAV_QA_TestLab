@@ -1,0 +1,7 @@
+<suit name="TestSuite" verbose="1">
+	<test>
+		<classes>
+			<class name="tests.LoginLogoutUseCase"/>
+		</classes>
+	</test>
+</suit>
